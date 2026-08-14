@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYNTHWAVE STUDIO 84 // Workstation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0813;
+      --panel-bg: #140d24;
+      --panel-border: #2a1b4e;
+      --neon-pink: #ff2a85;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #9d4edd;
+      --neon-amber: #ffb703;
+      --neon-grid: rgba(255, 42, 133, 0.15);
+      --text-main: #f0e6ff;
+      --text-muted: #8c7ba8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        linear-gradient(to bottom, rgba(11, 8, 19, 0.88), rgba(11, 8, 19, 0.98)),
+        linear-gradient(var(--neon-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--neon-grid) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      overflow-x: hidden;
+    }
+
+    header {
+      border-bottom: 2px solid var(--panel-border);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(20, 13, 36, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .logo-group h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-group h1 span {
+      color: var(--neon-pink);
+      text-shadow: 0 0 12px rgba(255, 42, 133, 0.6);
+    }
+
+    .logo-group p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .transport-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 10px 20px;
+      border: 1px solid var(--neon-pink);
+      background: rgba(255, 42, 133, 0.1);
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-shadow: 0 0 4px var(--neon-pink);
+      letter-spacing: 1px;
+    }
+
+    .btn:hover {
+      background: var(--neon-pink);
+      box-shadow: 0 0 16px var(--neon-pink);
+      color: #000;
+      text-shadow: none;
+    }
+
+    .btn-cyan {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      text-shadow: 0 0 4px var(--neon-cyan);
+    }
+
+    .btn-cyan:hover {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 16px var(--neon-cyan);
+      color: #000;
+    }
+
+    .btn-stop {
+      border-color: var(--neon-amber);
+      background: rgba(255, 183, 3, 0.1);
+      text-shadow: 0 0 4px var(--neon-amber);
+    }
+
+    .btn-stop:hover {
+      background: var(--neon-amber);
+      box-shadow: 0 0 16px var(--neon-amber);
+      color: #000;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 340px 1fr 340px;
+      gap: 18px;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      color: var(--neon-pink);
+      letter-spacing: 2px;
+      border-bottom: 1px solid rgba(255, 42, 133, 0.3);
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ctrl-group label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ctrl-group label span {
+      color: var(--neon-cyan);
+      font-weight: bold;
+    }
+
+    select, input[type="range"] {
+      width: 100%;
+      background: #0d0718;
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      padding: 8px;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: #25183e;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--neon-pink);
+      box-shadow: 0 0 10px var(--neon-pink);
+      cursor: pointer;
+    }
+
+    /* Chord Palette */
+    .chord-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .chord-card {
+      background: rgba(42, 27, 78, 0.4);
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+      cursor: grab;
+      transition: all 0.2s ease;
+    }
+
+    .chord-card:hover {
+      border-color: var(--neon-pink);
+      background: rgba(255, 42, 133, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 42, 133, 0.25);
+    }
+
+    .chord-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .chord-role {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--neon-cyan);
+      margin-top: 2px;
+    }
+
+    .chord-notes {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Main Arrangement Area */
+    .center-workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .section-selector-bar {
+      display: flex;
+      gap: 10px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      padding: 12px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--panel-border);
+      background: #19102c;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn.active {
+      border-color: var(--neon-cyan);
+      color: #000;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 12px var(--neon-cyan);
+    }
+
+    /* Timeline & Sequencer */
+    .timeline-wrapper {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .time-readout {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: var(--neon-amber);
+      text-shadow: 0 0 6px rgba(255, 183, 3, 0.4);
+    }
+
+    .song-track {
+      background: #0c0816;
+      border: 1px dashed #34245c;
+      border-radius: 6px;
+      min-height: 120px;
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      align-items: center;
+    }
+
+    .song-track.dragover {
+      border-color: var(--neon-pink);
+      background: rgba(255, 42, 133, 0.05);
+    }
+
+    .timeline-block {
+      background: linear-gradient(135deg, #241442, #180d2e);
+      border: 1px solid var(--neon-purple);
+      border-radius: 6px;
+      padding: 10px 14px;
+      min-width: 140px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-block.playing {
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 16px rgba(255, 42, 133, 0.6);
+      transform: scale(1.03);
+    }
+
+    .timeline-block .sec-tag {
+      font-size: 0.65rem;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+    }
+
+    .timeline-block .chord-lbl {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 4px 0;
+    }
+
+    .timeline-block .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      background: none;
+      border: none;
+      color: #ff477e;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .section-editor {
+      background: #0f0a1c;
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .slot-box {
+      border: 1px dashed #402d68;
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: rgba(20, 13, 36, 0.6);
+    }
+
+    .slot-box.filled {
+      border-style: solid;
+      border-color: var(--neon-pink);
+      color: #fff;
+      background: rgba(255, 42, 133, 0.1);
+    }
+
+    /* Effects & Synth Controls */
+    .fx-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #291a45;
+      border-radius: 20px;
+      transition: .3s;
+    }
+
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .3s;
+    }
+
+    input:checked + .slider-toggle {
+      background-color: var(--neon-pink);
+      box-shadow: 0 0 8px var(--neon-pink);
+    }
+
+    input:checked + .slider-toggle:before {
+      transform: translateX(20px);
+    }
+
+    .visualizer-canvas {
+      width: 100%;
+      height: 65px;
+      background: #08050e;
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-group">
+      <h1>SYNTHWAVE <span>STUDIO 84</span></h1>
+      <p>// RETRO ANALOG SYNTHESIS & ARRANGEMENT ENGINE</p>
+    </div>
+    <div class="transport-bar">
+      <button class="btn btn-cyan" id="btn-play">▶ PLAY TRACK</button>
+      <button class="btn btn-stop" id="btn-stop">■ STOP</button>
+      <button class="btn" id="btn-export">💾 EXPORT WAV</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+    <!-- LEFT PANEL: Global Settings & Available Chords -->
+    <div class="panel">
+      <div class="panel-title">1. HARMONIC CONSTRAINTS</div>
+
+      <div class="ctrl-group">
+        <label>ROOT KEY SIGNATURE</label>
+        <select id="key-select">
+          <option value="Am">A Minor (Nostalgic / Outrun)</option>
+          <option value="Cm">C Minor (Darksynth / Cyberpunk)</option>
+          <option value="Dm">D Minor (Classic 80s / Melancholy)</option>
+          <option value="Em">E Minor (Action / Synth Chase)</option>
+          <option value="Fm">F Minor (Atmospheric / Noir)</option>
+          <option value="Gm">G Minor (Heroic / RetroWave)</option>
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label>TEMPO: <span id="bpm-val">110 BPM</span></label>
+        <input type="range" id="bpm-slider" min="80" max="145" value="110" />
+      </div>
+
+      <div class="ctrl-group">
+        <label>MAX SONG DURATION: <span id="dur-val">3.5 MIN</span></label>
+        <input type="range" id="dur-slider" min="1.0" max="5.0" step="0.5" value="3.5" />
+      </div>
+
+      <div class="panel-title" style="margin-top:10px;">KEY CHORD PALETTE</div>
+      <div class="chord-grid" id="chord-palette">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- CENTER PANEL: Timeline & Song Builder -->
+    <div class="center-workspace">
+      
+      <!-- Section Builder -->
+      <div class="section-selector-bar">
+        <div class="section-pills">
+          <button class="pill-btn active" data-sec="Verse">VERSE</button>
+          <button class="pill-btn" data-sec="Pre-Chorus">PRE-CHORUS</button>
+          <button class="pill-btn" data-sec="Chorus">CHORUS</button>
+          <button class="pill-btn" data-sec="Bridge">BRIDGE</button>
+        </div>
+        <button class="btn btn-cyan" id="btn-add-section">+ ADD SECTION TO SONG</button>
+      </div>
+
+      <div class="section-editor">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Share Tech Mono'; font-size:0.8rem; color:var(--neon-cyan);" id="editing-sec-title">EDITING 4-BAR PATTERN FOR: VERSE</span>
+          <span style="font-size:0.75rem; color:var(--text-muted);">Click slots to assign selected chord</span>
+        </div>
+        <div class="section-slots" id="sec-slots">
+          <div class="slot-box filled" data-step="0">Am</div>
+          <div class="slot-box filled" data-step="1">F</div>
+          <div class="slot-box filled" data-step="2">C</div>
+          <div class="slot-box filled" data-step="3">G</div>
+        </div>
+      </div>
+
+      <!-- Main Timeline Track -->
+      <div class="timeline-wrapper">
+        <div class="timeline-header">
+          <div class="panel-title" style="border:none; padding:0;">2. TIMELINE ARRANGEMENT (DRAG TO REORDER)</div>
+          <div class="time-readout" id="track-time">00:00 / 00:00</div>
+        </div>
+        
+        <div class="song-track" id="song-track">
+          <!-- Timeline Blocks Injected Here -->
+        </div>
+
+        <canvas class="visualizer-canvas" id="scope"></canvas>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: Sound Design, Arp & 80s FX -->
+    <div class="panel">
+      <div class="panel-title">3. SYNTH & ANALOG FX ENGINE</div>
+
+      <div class="ctrl-group">
+        <div class="fx-toggle">
+          <label style="color:#fff; margin:0;">16th ARPEGGIATOR</label>
+          <label class="switch">
+            <input type="checkbox" id="arp-toggle" checked />
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+        <select id="arp-pattern" style="margin-top:6px;">
+          <option value="up">Arp: Up (Classic 80s)</option>
+          <option value="updown">Arp: Up / Down</option>
+          <option value="pulse16">Arp: 16th Bass Rolling Octaves</option>
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label>LOWPASS FILTER CUTOFF: <span id="cutoff-val">1800 HZ</span></label>
+        <input type="range" id="cutoff-slider" min="200" max="8000" value="1800" />
+      </div>
+
+      <div class="ctrl-group">
+        <label>FILTER RESONANCE (Q): <span id="res-val">4.5</span></label>
+        <input type="range" id="res-slider" min="0.5" max="15" step="0.5" value="4.5" />
+      </div>
+
+      <div class="ctrl-group">
+        <div class="fx-toggle">
+          <label style="color:#fff; margin:0;">80s STEREO REVERB</label>
+          <label class="switch">
+            <input type="checkbox" id="reverb-toggle" checked />
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+        <input type="range" id="reverb-mix" min="0" max="1" step="0.05" value="0.45" />
+      </div>
+
+      <div class="ctrl-group">
+        <div class="fx-toggle">
+          <label style="color:#fff; margin:0;">PING-PONG ECHO DELAY</label>
+          <label class="switch">
+            <input type="checkbox" id="delay-toggle" checked />
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
+        <input type="range" id="delay-mix" min="0" max="1" step="0.05" value="0.35" />
+      </div>
+
+      <div class="ctrl-group">
+        <label>BASS / LEAD BLEND: <span id="blend-val">50/50</span></label>
+        <input type="range" id="blend-slider" min="0" max="1" step="0.05" value="0.5" />
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    /* ==========================================================================
+       SYNTHWAVE MUSIC THEORY & SCALE DEFINITIONS
+       ========================================================================== */
+    const KEY_DATA = {
+      Am: {
+        name: "A Minor",
+        chords: [
+          { name: "Am", role: "i (Tonic)", notes: ["A2", "C3", "E3", "A3"], bass: "A1" },
+          { name: "F",  role: "VI (Subdominant)", notes: ["F2", "A2", "C3", "F3"], bass: "F1" },
+          { name: "C",  role: "III (Mediant)", notes: ["C3", "E3", "G3", "C4"], bass: "C2" },
+          { name: "G",  role: "VII (Subtonic)", notes: ["G2", "B2", "D3", "G3"], bass: "G1" },
+          { name: "Dm", role: "iv (Minor Sub)", notes: ["D3", "F3", "A3", "D4"], bass: "D2" },
+          { name: "Em", role: "v (Minor Dom)", notes: ["E2", "G2", "B2", "E3"], bass: "E1" }
+        ]
+      },
+      Cm: {
+        name: "C Minor",
+        chords: [
+          { name: "Cm", role: "i (Tonic)", notes: ["C3", "Eb3", "G3", "C4"], bass: "C2" },
+          { name: "Ab", role: "VI (Subdominant)", notes: ["Ab2", "C3", "Eb3", "Ab3"], bass: "Ab1" },
+          { name: "Eb", role: "III (Mediant)", notes: ["Eb3", "G3", "Bb3", "Eb4"], bass: "Eb2" },
+          { name: "Bb", role: "VII (Subtonic)", notes: ["Bb2", "D3", "F3", "Bb3"], bass: "Bb1" },
+          { name: "Fm", role: "iv (Minor Sub)", notes: ["F2", "Ab2", "C3", "F3"], bass: "F1" },
+          { name: "Gm", role: "v (Minor Dom)", notes: ["G2", "Bb2", "D3", "G3"], bass: "G1" }
+        ]
+      },
+      Dm: {
+        name: "D Minor",
+        chords: [
+          { name: "Dm", role: "i (Tonic)", notes: ["D3", "F3", "A3", "D4"], bass: "D2" },
+          { name: "Bb", role: "VI (Subdominant)", notes: ["Bb2", "D3", "F3", "Bb3"], bass: "Bb1" },
+          { name: "F",  role: "III (Mediant)", notes: ["F2", "A2", "C3", "F3"], bass: "F1" },
+          { name: "C",  role: "VII (Subtonic)", notes: ["C3", "E3", "G3", "C4"], bass: "C2" },
+          { name: "Gm", role: "iv (Minor Sub)", notes: ["G2", "Bb2", "D3", "G3"], bass: "G1" },
+          { name: "Am", role: "v (Minor Dom)", notes: ["A2", "C3", "E3", "A3"], bass: "A1" }
+        ]
+      },
+      Em: {
+        name: "E Minor",
+        chords: [
+          { name: "Em", role: "i (Tonic)", notes: ["E2", "G2", "B2", "E3"], bass: "E1" },
+          { name: "C",  role: "VI (Subdominant)", notes: ["C3", "E3", "G3", "C4"], bass: "C2" },
+          { name: "G",  role: "III (Mediant)", notes: ["G2", "B2", "D3", "G3"], bass: "G1" },
+          { name: "D",  role: "VII (Subtonic)", notes: ["D3", "F#3", "A3", "D4"], bass: "D2" },
+          { name: "Am", role: "iv (Minor Sub)", notes: ["A2", "C3", "E3", "A3"], bass: "A1" },
+          { name: "Bm", role: "v (Minor Dom)", notes: ["B2", "D3", "F#3", "B3"], bass: "B1" }
+        ]
+      },
+      Fm: {
+        name: "F Minor",
+        chords: [
+          { name: "Fm", role: "i (Tonic)", notes: ["F2", "Ab2", "C3", "F3"], bass: "F1" },
+          { name: "Db", role: "VI (Subdominant)", notes: ["Db3", "F3", "Ab3", "Db4"], bass: "Db2" },
+          { name: "Ab", role: "III (Mediant)", notes: ["Ab2", "C3", "Eb3", "Ab3"], bass: "Ab1" },
+          { name: "Eb", role: "VII (Subtonic)", notes: ["Eb3", "G3", "Bb3", "Eb4"], bass: "Eb2" },
+          { name: "Bbm",role: "iv (Minor Sub)", notes: ["Bb2", "Db3", "F3", "Bb3"], bass: "Bb1" },
+          { name: "Cm", role: "v (Minor Dom)", notes: ["C3", "Eb3", "G3", "C4"], bass: "C2" }
+        ]
+      },
+      Gm: {
+        name: "G Minor",
+        chords: [
+          { name: "Gm", role: "i (Tonic)", notes: ["G2", "Bb2", "D3", "G3"], bass: "G1" },
+          { name: "Eb", role: "VI (Subdominant)", notes: ["Eb3", "G3", "Bb3", "Eb4"], bass: "Eb2" },
+          { name: "Bb", role: "III (Mediant)", notes: ["Bb2", "D3", "F3", "Bb3"], bass: "Bb1" },
+          { name: "F",  role: "VII (Subtonic)", notes: ["F2", "A2", "C3", "F3"], bass: "F1" },
+          { name: "Cm", role: "iv (Minor Sub)", notes: ["C3", "Eb3", "G3", "C4"], bass: "C2" },
+          { name: "Dm", role: "v (Minor Dom)", notes: ["D3", "F3", "A3", "D4"], bass: "D2" }
+        ]
+      }
+    };
+
+    const NOTE_FREQS = {
+      "C1": 32.70, "Db1": 34.65, "D1": 36.71, "Eb1": 38.89, "E1": 41.20, "F1": 43.65, "F#1": 46.25, "G1": 49.00, "Ab1": 51.91, "A1": 55.00, "Bb1": 58.27, "B1": 61.74,
+      "C2": 65.41, "Db2": 69.30, "D2": 73.42, "Eb2": 77.78, "E2": 82.41, "F2": 87.31, "F#2": 92.50, "G2": 98.00, "Ab2": 103.83, "A2": 110.00, "Bb2": 116.54, "B2": 123.47,
+      "C3": 130.81, "Db3": 138.59, "D3": 146.83, "Eb3": 155.56, "E3": 164.81, "F3": 174.61, "F#3": 185.00, "G3": 196.00, "Ab3": 207.65, "A3": 220.00, "Bb3": 233.08, "B3": 246.94,
+      "C4": 261.63, "Db4": 277.18, "D4": 293.66, "Eb4": 311.13, "E4": 329.63, "F4": 349.23, "F#4": 369.99, "G4": 392.00, "Ab4": 415.30, "A4": 440.00, "Bb4": 466.16, "B4": 493.88
+    };
+
+    /* State Store */
+    let currentKey = "Am";
+    let bpm = 110;
+    let maxMinutes = 3.5;
+    let selectedChordForSlot = "Am";
+    let activeSectionName = "Verse";
+    
+    // Preset templates for sections
+    let sectionPresets = {
+      "Verse": ["Am", "F", "C", "G"],
+      "Pre-Chorus": ["Dm", "Em", "F", "G"],
+      "Chorus": ["F", "G", "Am", "Em"],
+      "Bridge": ["Dm", "Am", "F", "G"]
+    };
+
+    // The full timeline of placed blocks
+    let songArrangement = [
+      { id: 1, section: "Verse", chords: ["Am", "F", "C", "G"] },
+      { id: 2, section: "Verse", chords: ["Am", "F", "C", "G"] },
+      { id: 3, section: "Pre-Chorus", chords: ["Dm", "Em", "F", "G"] },
+      { id: 4, section: "Chorus", chords: ["F", "G", "Am", "Em"] }
+    ];
+
+    let isPlaying = false;
+    let audioCtx = null;
+    let playbackInterval = null;
+    let currentPlaybackStep = 0;
+    let analyserNode = null;
+
+    /* ==========================================================================
+       AUDIO SYNTHESIS ENGINE (Web Audio API)
+       ========================================================================== */
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyserNode = audioCtx.createAnalyser();
+        analyserNode.fftSize = 256;
+        analyserNode.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Algorithmic Reverb Impulse Generator (80s Lexicon-style decay)
+    function createReverbBuffer(ctx, duration = 2.4, decay = 2.0) {
+      let sampleRate = ctx.sampleRate;
+      let length = sampleRate * duration;
+      let impulse = ctx.createBuffer(2, length, sampleRate);
+      let left = impulse.getChannelData(0);
+      let right = impulse.getChannelData(1);
+      for (let i = 0; i < length; i++) {
+        let n = i / length;
+        let factor = Math.pow(1 - n, decay);
+        left[i] = ((Math.random() * 2) - 1) * factor;
+        right[i] = ((Math.random() * 2) - 1) * factor;
+      }
+      return impulse;
+    }
+
+    // Play a single 16th note synth event
+    function playStepSynth(chordData, sixteenthIndex, time, ctx = audioCtx, destination = analyserNode) {
+      if (!chordData) return;
+
+      let cutoff = parseFloat(document.getElementById('cutoff-slider').value);
+      let resonance = parseFloat(document.getElementById('res-slider').value);
+      let arpOn = document.getElementById('arp-toggle').checked;
+      let arpMode = document.getElementById('arp-pattern').value;
+      let reverbOn = document.getElementById('reverb-toggle').checked;
+      let delayOn = document.getElementById('delay-toggle').checked;
+
+      // Master output bus for this step
+      let stepBus = ctx.createGain();
+      stepBus.gain.setValueAtTime(0.7, time);
+
+      // Lowpass Ladder filter
+      let filter = ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(cutoff, time);
+      filter.Q.setValueAtTime(resonance, time);
+
+      // 1. DRIVING SYNTHWAVE 16TH BASS
+      let bassOsc = ctx.createOscillator();
+      let bassGain = ctx.createGain();
+      bassOsc.type = "sawtooth";
+      
+      let baseBassFreq = NOTE_FREQS[chordData.bass] || 55;
+      // 16th-note rolling octave bass pattern (1 & 3 low, 2 & 4 high)
+      let bassFreq = (sixteenthIndex % 2 === 1) ? baseBassFreq * 2 : baseBassFreq;
+      bassOsc.frequency.setValueAtTime(bassFreq, time);
+
+      bassGain.gain.setValueAtTime(0.001, time);
+      bassGain.gain.exponentialRampToValueAtTime(0.35, time + 0.01);
+      bassGain.gain.exponentialRampToValueAtTime(0.001, time + 0.12);
+
+      bassOsc.connect(filter);
+      bassGain.connect(filter);
+      bassOsc.connect(bassGain);
+      bassOsc.start(time);
+      bassOsc.stop(time + 0.14);
+
+      // 2. ARPEGGIATED SYNTH LEAD / CHORD
+      if (arpOn) {
+        let noteArray = chordData.notes;
+        let noteIndex = 0;
+        if (arpMode === "up") {
+          noteIndex = sixteenthIndex % noteArray.length;
+        } else if (arpMode === "updown") {
+          let seq = [0, 1, 2, 3, 2, 1];
+          noteIndex = seq[sixteenthIndex % seq.length] % noteArray.length;
+        } else {
+          noteIndex = (sixteenthIndex % 4 === 0) ? 0 : 2;
+        }
+
+        let leadFreq = NOTE_FREQS[noteArray[noteIndex]] || 220;
+
+        // Dual detuned oscillators for authentic vintage chorusing
+        let leadOsc1 = ctx.createOscillator();
+        let leadOsc2 = ctx.createOscillator();
+        let leadGain = ctx.createGain();
+
+        leadOsc1.type = "sawtooth";
+        leadOsc2.type = "square";
+        leadOsc1.frequency.setValueAtTime(leadFreq, time);
+        leadOsc2.frequency.setValueAtTime(leadFreq * 1.006, time); // detune +6 cents
+
+        leadGain.gain.setValueAtTime(0.001, time);
+        leadGain.gain.exponentialRampToValueAtTime(0.2, time + 0.02);
+        leadGain.gain.exponentialRampToValueAtTime(0.001, time + 0.18);
+
+        leadOsc1.connect(leadGain);
+        leadOsc2.connect(leadGain);
+        leadGain.connect(filter);
+
+        leadOsc1.start(time);
+        leadOsc2.start(time);
+        leadOsc1.stop(time + 0.2);
+        leadOsc2.stop(time + 0.2);
+      }
+
+      filter.connect(stepBus);
+
+      // 3. RETRO REVERB & DELAY ROUTING
+      let finalDest = destination;
+
+      if (reverbOn) {
+        let convolver = ctx.createConvolver();
+        convolver.buffer = createReverbBuffer(ctx, 2.2, 2.0);
+        let revGain = ctx.createGain();
+        revGain.gain.value = parseFloat(document.getElementById('reverb-mix').value);
+        stepBus.connect(convolver);
+        convolver.connect(revGain);
+        revGain.connect(finalDest);
+      }
+
+      if (delayOn) {
+        let delay = ctx.createDelay();
+        delay.delayTime.value = (60 / bpm) * 0.75; // Dotted 8th delay
+        let delayFeedback = ctx.createGain();
+        delayFeedback.gain.value = 0.35;
+        let delayMix = ctx.createGain();
+        delayMix.gain.value = parseFloat(document.getElementById('delay-mix').value);
+
+        stepBus.connect(delay);
+        delay.connect(delayFeedback);
+        delayFeedback.connect(delay);
+        delay.connect(delayMix);
+        delayMix.connect(finalDest);
+      }
+
+      stepBus.connect(finalDest);
+    }
+
+    /* ==========================================================================
+       UI RENDERING & EVENT CONTROLLERS
+       ========================================================================== */
+    const keySelect = document.getElementById('key-select');
+    const bpmSlider = document.getElementById('bpm-slider');
+    const bpmVal = document.getElementById('bpm-val');
+    const durSlider = document.getElementById('dur-slider');
+    const durVal = document.getElementById('dur-val');
+    const chordPalette = document.getElementById('chord-palette');
+    const songTrack = document.getElementById('song-track');
+    const secSlots = document.getElementById('sec-slots');
+    const trackTime = document.getElementById('track-time');
+
+    function renderChords() {
+      chordPalette.innerHTML = '';
+      let data = KEY_DATA[currentKey];
+      data.chords.forEach(c => {
+        let el = document.createElement('div');
+        el.className = 'chord-card';
+        el.innerHTML = `
+          <div class="chord-name">${c.name}</div>
+          <div class="chord-role">${c.role}</div>
+          <div class="chord-notes">${c.notes.join(' • ')}</div>
+        `;
+        el.onclick = () => {
+          selectedChordForSlot = c.name;
+          document.querySelectorAll('.chord-card').forEach(x => x.style.borderColor = 'var(--panel-border)');
+          el.style.borderColor = 'var(--neon-pink)';
+        };
+        chordPalette.appendChild(el);
+      });
+      renderSectionSlots();
+    }
+
+    function renderSectionSlots() {
+      let chords = sectionPresets[activeSectionName];
+      secSlots.innerHTML = '';
+      chords.forEach((chordName, idx) => {
+        let box = document.createElement('div');
+        box.className = 'slot-box filled';
+        box.textContent = `Bar ${idx+1}: ${chordName}`;
+        box.onclick = () => {
+          sectionPresets[activeSectionName][idx] = selectedChordForSlot;
+          renderSectionSlots();
+        };
+        secSlots.appendChild(box);
+      });
+      document.getElementById('editing-sec-title').textContent = `EDITING 4-BAR PATTERN FOR: ${activeSectionName.toUpperCase()}`;
+    }
+
+    function renderTimeline() {
+      songTrack.innerHTML = '';
+      let totalSeconds = 0;
+      let barDuration = (60 / bpm) * 4;
+
+      songArrangement.forEach((block, idx) => {
+        totalSeconds += barDuration * block.chords.length;
+        let el = document.createElement('div');
+        el.className = 'timeline-block';
+        el.id = `block-${idx}`;
+        el.innerHTML = `
+          <button class="remove-btn" title="Remove">&times;</button>
+          <div class="sec-tag">${block.section}</div>
+          <div class="chord-lbl">${block.chords.join(' - ')}</div>
+          <div style="font-size:0.65rem; color:var(--text-muted); font-family:'Share Tech Mono';">4 Bars (16 Beats)</div>
+        `;
+
+        el.querySelector('.remove-btn').onclick = (e) => {
+          e.stopPropagation();
+          songArrangement.splice(idx, 1);
+          renderTimeline();
+        };
+
+        songTrack.appendChild(el);
+      });
+
+      let min = Math.floor(totalSeconds / 60);
+      let sec = Math.floor(totalSeconds % 60);
+      trackTime.textContent = `00:00 / ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+
+    // Section Pill Selection
+    document.querySelectorAll('.pill-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeSectionName = btn.getAttribute('data-sec');
+        renderSectionSlots();
+      };
+    });
+
+    document.getElementById('btn-add-section').onclick = () => {
+      let maxSecs = maxMinutes * 60;
+      let currentDuration = songArrangement.length * 4 * ((60 / bpm) * 4);
+      if (currentDuration >= maxSecs) {
+        alert("Maximum song length reached based on your song duration constraint!");
+        return;
+      }
+      songArrangement.push({
+        id: Date.now(),
+        section: activeSectionName,
+        chords: [...sectionPresets[activeSectionName]]
+      });
+      renderTimeline();
+    };
+
+    keySelect.onchange = (e) => {
+      currentKey = e.target.value;
+      // Remap default section presets to fit selected key's tonic & chords
+      let valid = KEY_DATA[currentKey].chords.map(c => c.name);
+      sectionPresets["Verse"] = [valid[0], valid[1], valid[2], valid[3]];
+      sectionPresets["Pre-Chorus"] = [valid[4], valid[5], valid[1], valid[3]];
+      sectionPresets["Chorus"] = [valid[1], valid[3], valid[0], valid[5]];
+      sectionPresets["Bridge"] = [valid[4], valid[0], valid[1], valid[3]];
+      renderChords();
+      renderTimeline();
+    };
+
+    bpmSlider.oninput = (e) => {
+      bpm = parseInt(e.target.value);
+      bpmVal.textContent = `${bpm} BPM`;
+      renderTimeline();
+    };
+
+    durSlider.oninput = (e) => {
+      maxMinutes = parseFloat(e.target.value);
+      durVal.textContent = `${maxMinutes.toFixed(1)} MIN`;
+    };
+
+    document.getElementById('cutoff-slider').oninput = (e) => {
+      document.getElementById('cutoff-val').textContent = `${e.target.value} HZ`;
+    };
+
+    document.getElementById('res-slider').oninput = (e) => {
+      document.getElementById('res-val').textContent = e.target.value;
+    };
+
+    /* ==========================================================================
+       PLAYBACK SEQUENCER
+       ========================================================================== */
+    function stopPlayback() {
+      isPlaying = false;
+      if (playbackInterval) clearInterval(playbackInterval);
+      document.querySelectorAll('.timeline-block').forEach(b => b.classList.remove('playing'));
+      document.getElementById('btn-play').textContent = "▶ PLAY TRACK";
+    }
+
+    function startPlayback() {
+      if (songArrangement.length === 0) return;
+      initAudioContext();
+      isPlaying = true;
+      document.getElementById('btn-play').textContent = "❚❚ PAUSE";
+
+      let allChords = [];
+      let blockIndices = [];
+      songArrangement.forEach((block, bIdx) => {
+        block.chords.forEach(cName => {
+          let chordObj = KEY_DATA[currentKey].chords.find(c => c.name === cName);
+          allChords.push(chordObj);
+          blockIndices.push(bIdx);
+        });
+      });
+
+      let step16thTime = (60 / bpm) / 4;
+      let totalSteps = allChords.length * 16;
+      let current16thStep = 0;
+
+      playbackInterval = setInterval(() => {
+        if (!isPlaying) return;
+
+        let chordIndex = Math.floor(current16thStep / 16);
+        let sixteenthInChord = current16thStep % 16;
+        let currentBlockIdx = blockIndices[chordIndex];
+
+        // Highlight timeline block
+        document.querySelectorAll('.timeline-block').forEach((b, i) => {
+          if (i === currentBlockIdx) b.classList.add('playing');
+          else b.classList.remove('playing');
+        });
+
+        // Trigger Audio Note
+        playStepSynth(allChords[chordIndex], sixteenthInChord, audioCtx.currentTime);
+
+        // Update elapsed time readout
+        let elapsed = current16thStep * step16thTime;
+        let min = Math.floor(elapsed / 60);
+        let sec = Math.floor(elapsed % 60);
+        trackTime.textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')} / ${trackTime.textContent.split(' / ')[1]}`;
+
+        current16thStep++;
+        if (current16thStep >= totalSteps) {
+          stopPlayback();
+        }
+      }, step16thTime * 1000);
+    }
+
+    document.getElementById('btn-play').onclick = () => {
+      if (isPlaying) stopPlayback();
+      else startPlayback();
+    };
+
+    document.getElementById('btn-stop').onclick = stopPlayback;
+
+    /* ==========================================================================
+       OFFLINE RENDERING & WAV EXPORT
+       ========================================================================== */
+    function writeString(view, offset, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    }
+
+    function audioBufferToWav(buffer) {
+      let numOfChan = buffer.numberOfChannels;
+      let length = buffer.length * numOfChan * 2 + 44;
+      let out = new DataView(new ArrayBuffer(length));
+      let channels = [];
+      let sampleRate = buffer.sampleRate;
+      let offset = 0;
+      let pos = 0;
+
+      // RIFF chunk descriptor
+      writeString(out, pos, 'RIFF'); pos += 4;
+      out.setUint32(pos, length - 8, true); pos += 4;
+      writeString(out, pos, 'WAVE'); pos += 4;
+      // FMT sub-chunk
+      writeString(out, pos, 'fmt '); pos += 4;
+      out.setUint32(pos, 16, true); pos += 4; // Subchunk1Size
+      out.setUint16(pos, 1, true); pos += 2; // PCM
+      out.setUint16(pos, numOfChan, true); pos += 2;
+      out.setUint32(pos, sampleRate, true); pos += 4;
+      out.setUint32(pos, sampleRate * 2 * numOfChan, true); pos += 4;
+      out.setUint16(pos, numOfChan * 2, true); pos += 2;
+      out.setUint16(pos, 16, true); pos += 2; // 16-bit
+      // Data sub-chunk
+      writeString(out, pos, 'data'); pos += 4;
+      out.setUint32(pos, length - pos - 4, true); pos += 4;
+
+      for (let i = 0; i < buffer.numberOfChannels; i++) {
+        channels.push(buffer.getChannelData(i));
+      }
+
+      while (offset < buffer.length) {
+        for (let i = 0; i < numOfChan; i++) {
+          let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+          sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+          out.setInt16(pos, sample, true);
+          pos += 2;
+        }
+        offset++;
+      }
+      return new Blob([out], { type: 'audio/wav' });
+    }
+
+    document.getElementById('btn-export').onclick = async () => {
+      if (songArrangement.length === 0) {
+        alert("Please add at least one section before exporting!");
+        return;
+      }
+      
+      stopPlayback();
+      const exportBtn = document.getElementById('btn-export');
+      exportBtn.textContent = "⏳ RENDERING...";
+
+      let allChords = [];
+      songArrangement.forEach(block => {
+        block.chords.forEach(cName => {
+          allChords.push(KEY_DATA[currentKey].chords.find(c => c.name === cName));
+        });
+      });
+
+      let step16thTime = (60 / bpm) / 4;
+      let totalDuration = (allChords.length * 16 * step16thTime) + 3.0; // tail for reverb
+      let sampleRate = 44100;
+      let offlineCtx = new OfflineAudioContext(2, sampleRate * totalDuration, sampleRate);
+
+      for (let i = 0; i < allChords.length * 16; i++) {
+        let chordIdx = Math.floor(i / 16);
+        let sixteenth = i % 16;
+        let scheduleTime = i * step16thTime;
+        playStepSynth(allChords[chordIdx], sixteenth, scheduleTime, offlineCtx, offlineCtx.destination);
+      }
+
+      let renderedBuffer = await offlineCtx.startRendering();
+      let wavBlob = audioBufferToWav(renderedBuffer);
+      let url = URL.createObjectURL(wavBlob);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = `synthwave_${currentKey}_${bpm}bpm.wav`;
+      a.click();
+
+      exportBtn.textContent = "💾 EXPORT WAV";
+    };
+
+    /* ==========================================================================
+       OSCILLOSCOPE VISUALIZER
+       ========================================================================== */
+    const canvas = document.getElementById('scope');
+    const ctxCanvas = canvas.getContext('2d');
+
+    function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+      if (!analyserNode) return;
+
+      let bufferLength = analyserNode.frequencyBinCount;
+      let dataArray = new Uint8Array(bufferLength);
+      analyserNode.getByteTimeDomainData(dataArray);
+
+      ctxCanvas.fillStyle = '#08050e';
+      ctxCanvas.fillRect(0, 0, canvas.width, canvas.height);
+      ctxCanvas.lineWidth = 2;
+      ctxCanvas.strokeStyle = '#ff2a85';
+      ctxCanvas.shadowBlur = 8;
+      ctxCanvas.shadowColor = '#ff2a85';
+
+      ctxCanvas.beginPath();
+      let sliceWidth = canvas.width * 1.0 / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        let v = dataArray[i] / 128.0;
+        let y = v * (canvas.height / 2);
+        if (i === 0) ctxCanvas.moveTo(x, y);
+        else ctxCanvas.lineTo(x, y);
+        x += sliceWidth;
+      }
+      ctxCanvas.lineTo(canvas.width, canvas.height / 2);
+      ctxCanvas.stroke();
+    }
+
+    // Init App
+    renderChords();
+    renderTimeline();
+    drawVisualizer();
+  </script>
+</body>
+</html>
